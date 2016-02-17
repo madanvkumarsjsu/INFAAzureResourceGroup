@@ -6,38 +6,73 @@
         ],
         "steps": [
             {
-                "label": "Informatica Domain settings",
-                "name": "infaDomainConfiguration",
+                "label": "Informatica BDE settings",
+                "name": "infaBDEConfiguration",
                 "subLabel": {
-                    "preValidation": "Configure the Informatica Domain settings",
+                    "preValidation": "Configure the Informatica HDI Cluster settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Informatica Domain settings",
+                "bladeTitle": "Informatica Domain Settings",
                 "elements": [
                     {
-                        "name": "infaDomainName",
+                        "name": "HDIClusterName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "Informatica domain name",
-                        "defaultValue": "Azure_Domain",
-                        "toolTip": "Check Informatica 961HF3 commandline reference document",
+                        "label": "HDI Cluster HOSTNAME",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster properties under settings",
                         "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{1,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                            "required": true
                         }
                     },
                     {
-                        "name": "infaDomainName",
+                        "name": "HDIClusterLoginUsername",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "Informatica domain name",
-                        "defaultValue": "Azure_Domain",
-                        "toolTip": "Check Informatica 961HF3 commandline reference document",
+                        "label": "HDI Cluster Login Username",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
                         "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{1,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterLoginPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDI Cluster Login Password",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHHostname",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster SSH hostname",
+                        "defaultValue": "hostname-ssh.azurehdinsight.net",
+                        "toolTip": "HDI cluster's headnode SSH hostname"
+                    },
+                    {
+                        "name": "HDIClusterSSHUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster SSH Username",
+                        "defaultValue": "",
+                        "toolTip": "HDI cluster's headnode SSH username",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDI Cluster SSH Password",
+                        "defaultValue": "",
+                        "toolTip": "HDI cluster's headnode SSH password",
+                        "constraints": {
+                            "required": true
                         }
                     }
+
+
                 ]
             }
 
