@@ -334,6 +334,114 @@
                         }
                     }
                 ]
+            },
+            {
+                "label": "Informatica BDE settings",
+                "name": "infaBDEConfiguration",
+                "subLabel": {
+                    "preValidation": "Configure the Informatica HDI Cluster settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Informatica BDE Settings",
+                "elements": [
+                    {
+                        "name": "HDIClusterName",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster HOSTNAME",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster properties under settings",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterLoginUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster Login Username",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterLoginPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDI Cluster Login Password",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHHostname",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster SSH hostname",
+                        "defaultValue": "hostname-ssh.azurehdinsight.net",
+                        "toolTip": "HDI cluster's headnode SSH hostname"
+                    },
+                    {
+                        "name": "HDIClusterSSHUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDI Cluster SSH Username",
+                        "defaultValue": "",
+                        "toolTip": "HDI cluster's headnode SSH username",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDI Cluster SSH Password",
+                        "defaultValue": "",
+                        "toolTip": "HDI cluster's headnode SSH password",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "Clusterjobhistory",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "mapreduce.jobhistory.address",
+                        "defaultValue": "HOSTNAME:10020",
+                        "toolTip": "MapReduce JobHistory Server IPC host:port. Check Map reduce configuration in Ambari.",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "Clusterjobhistorywebapp",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "mapreduce.jobhistory.webapp.address",
+                        "defaultValue": "HOSTNAME:19888",
+                        "toolTip": "MapReduce JobHistory Server Web UI host:port. Check Map reduce configuration in Ambari.",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "ClusterRMSaddress",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "yarn.resourcemanager.scheduler.address",
+                        "defaultValue": "HOSTNAME:8030",
+                        "toolTip": "Resource Manager scheduler address host:port. Check yarn configuration in Ambari.",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "ClusterRMWaddress",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "yarn.resourcemanager.webapp.address",
+                        "defaultValue": "HOSTNAME:8088",
+                        "toolTip": "Resource Manager scheduler web app address host:port. Check yarn configuration in Ambari.",
+                        "constraints": {
+                            "required": true
+                        }
+                    }
+                ]
             }
         ],
 
