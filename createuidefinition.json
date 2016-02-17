@@ -14,7 +14,7 @@
                 },
                 "bladeTitle": "Node Settings",
                 "elements": [
-                    {
+					{
                         "name": "infavnet",
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
@@ -22,7 +22,7 @@
                             "subnets": "Subnets"
                         },
                         "toolTip": {
-                            "virtualNetwork": "Virtual network all resource required to be part of. Kindly Choose the Virtual network of HDInsight cluster.",
+                            "virtualNetwork": "Virtual network all resource required to be part of",
                             "subnets": ""
                         },
                         "defaultValue": {
@@ -156,33 +156,6 @@
                     }
                 ]
             },
-            /*{
-                "label": "Informatica BDE settings",
-                "name": "infaBDEConfiguration",
-                "subLabel": {
-                    "preValidation": "Configure the Informatica HDI Cluster settings",
-                    "postValidation": "Done"
-                },
-                "bladeTitle": "Informatica Domain settings",
-                "elements": [
-                    //Azure HD insight cluster host name
-                    //Cluster Login/pass
-                    //Head node Login/pass
-                    mapreduce.jobhistory.address
-       Hostname
-      Port
-       mapreduce.jobhistory.webapp.address
-       Hostname
-      Port
-       yarn.resourcemanager.scheduler.address
-       Hostname
-      Port
-       yarn.resourcemanager.webapp.address
-       Hostname
-      Port
-                    //Head Node
-                ]
-            },*/
             {
                 "name": "databaseConfiguration",
                 "label": "Database settings",
@@ -366,26 +339,26 @@
 
         "outputs": {
             "location": "[location()]",
-            "virtualNetworkName": "[steps('nodeVMConfiguration').infavnet.name]",
-            "subnetName": "[steps('nodeVMConfiguration').infavnet.subnets.subnet1.name]",
-            "storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
-            "storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
-            "nodeCount": "[steps('nodeVMConfiguration').domainNodeCount]",
-            "nodeOS": "[steps('nodeVMConfiguration').nodeVMOS]",
-            "nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
-            "nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
-            "nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
-            "nodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
-            "databaseName": "[steps('databaseConfiguration').databaseName]",
-            "databaseVMSize": "[steps('databaseConfiguration').databaseVMSize]",
-            "dbVMAdminUsername": "[steps('databaseConfiguration').dbVMAdminUsername]",
-            "dbVMAdminPassword": "[steps('databaseConfiguration').dbVMAdminPassword]",
-            "infaDomainDBUser": "[steps('databaseConfiguration').infaDomainDBUser]",
-            "infaDomainDBPassword": "[steps('databaseConfiguration').infaDomainDBPassword]",
-            "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
-            "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
-            "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
-            "infaDomainEncryptionKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]"
+			"virtualNetworkName": "[steps('nodeVMConfiguration').infavnet.name]",
+			"subnetName": "[steps('nodeVMConfiguration').infavnet.subnets.subnet1.name]",
+			"storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
+			"storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
+			"nodeCount": "[steps('nodeVMConfiguration').domainNodeCount]",
+			"nodeOS":  "[steps('nodeVMConfiguration').nodeVMOS]",
+			"nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
+			"nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
+			"nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
+			"nodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
+			"databaseName": "[steps('databaseConfiguration').databaseName]",
+			"databaseVMSize": "[steps('databaseConfiguration').databaseVMSize]",
+			"dbVMAdminUsername": "[steps('databaseConfiguration').dbVMAdminUsername]",
+			"dbVMAdminPassword": "[steps('databaseConfiguration').dbVMAdminPassword]",
+			"infaDomainDBUser": "[steps('databaseConfiguration').infaDomainDBUser]",
+			"infaDomainDBPassword": "[steps('databaseConfiguration').infaDomainDBPassword]",
+			"infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
+			"infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
+			"infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
+			"infaDomainEncryptionKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]"
         }
     }
 }
