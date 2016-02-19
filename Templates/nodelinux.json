@@ -87,8 +87,8 @@
         "VMSubnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
 
         "InfaCustomeVMImage": "https://ispstorenp.blob.core.windows.net/copiedvhds/INFAU1404I10-os-2015-12-16.vhd",
-        "ExtScriptURI": "https://raw.githubusercontent.com/vijayanand17/infascripts/master/",
-        "ExtWIScriptFile": "lininfainstaller.sh",
+        "ExtScriptURI": "https://raw.githubusercontent.com/madanvkumarsjsu/INFAAzureResourceGroup/master/",
+        "ExtWIScriptFile": "HDIScripts.sh",
 
         "InfaNode1Port": 6005,
         "InfaDBType": "MSSQLSERVER",
