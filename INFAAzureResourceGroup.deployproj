@@ -26,10 +26,11 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="Templates\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="createuidefinition_HDI.json" />
+    <None Include="createuidefinition.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
@@ -38,6 +39,9 @@
     <None Include="Templates\DeploymentTemplate.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Templates\InformaticaDynamicDeployment.json" />
+    <None Include="Templates\nodelinux.json" />
+    <None Include="Templates\nodelinux_param.json" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

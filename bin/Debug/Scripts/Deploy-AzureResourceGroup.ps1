@@ -2,7 +2,7 @@
 
 Param(
   [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
-  [string] $ResourceGroupName = 'AzureHDIwithRPM',  
+  [string] $ResourceGroupName = 'INFAAzureResourceGroup',  
   [switch] $UploadArtifacts,
   [string] $StorageAccountName,
   [string] $StorageAccountResourceGroupName, 
@@ -13,8 +13,6 @@ Param(
   [string] $AzCopyPath = '..\Tools\AzCopy.exe',
   [string] $DSCSourceFolder = '..\DSC'
 )
-
-Login-AzureRmAccount
 
 if (Get-Module -ListAvailable | Where-Object { $_.Name -eq 'AzureResourceManager' -and $_.Version -ge '0.9.9' }) {
     Throw "The version of the Azure PowerShell cmdlets installed on this machine are not compatible with this script.  For help updating this script visit: http://go.microsoft.com/fwlink/?LinkID=623011"
@@ -65,18 +63,15 @@ if ($UploadArtifacts)
     }
 
     if ($StorageAccountResourceGroupName) {
-        #Switch-AzureMode AzureResourceManager
+        Switch-AzureMode AzureResourceManager
         $StorageAccountKey = (Get-AzureStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
     }
     else {
-        #Switch-AzureMode AzureServiceManagement
+        Switch-AzureMode AzureServiceManagement
         $StorageAccountKey = (Get-AzureStorageKey -StorageAccountName $StorageAccountName).Primary 
     }
     
     $StorageAccountContext = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
-	#$StorageAccountKey = (Get-AzureRMStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
-	#$StorageAccountContext = (Get-AzureRmStorageAccount -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Context
-
 
     # Create DSC configuration archive
     if (Test-Path $DSCSourceFolder) {
@@ -107,9 +102,9 @@ if ($UploadArtifacts)
 }
 
 # Create or update the resource group using the specified template file and template parameters file
-#Switch-AzureMode AzureResourceManager
-New-AzureRmResourceGroupDeployment -Name $ResourceGroupName `
-                       -ResourceGroupName $ResourceGroupName `
+Switch-AzureMode AzureResourceManager
+New-AzureResourceGroup -Name $ResourceGroupName `
+                       -Location $ResourceGroupLocation `
                        -TemplateFile $TemplateFile `
                        -TemplateParameterFile $TemplateParametersFile `
                         @OptionalParameters `

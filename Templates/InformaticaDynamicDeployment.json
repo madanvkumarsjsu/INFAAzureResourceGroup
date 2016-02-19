@@ -1,0 +1,539 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "InfaDomainName": {
+            "type": "string",
+            "minLength": 4
+        },
+        "InfaDomainUser": {
+            "type": "string",
+            "minLength": 4
+        },
+        "InfaDomainPassword": {
+            "type": "securestring",
+            "minLength": 4
+        },
+        "InfaNodeNamePrefix": {
+            "type": "string",
+            "minLength": 4
+        },
+        "InfaKeyWord": {
+            "type": "securestring",
+            "minLength": 4
+        },
+        "DBUser": {
+            "type": "string",
+            "minLength": 4,
+            "metadata": {
+                "description": "Domain DB user"
+            }
+        },
+        "DBPassword": {
+            "type": "securestring",
+            "minLength": 4,
+            "metadata": {
+                "description": "Domain DB user"
+            }
+        },
+
+
+        "StoreName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "StoreType": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_ZRS"
+            ]
+        },
+        "VMSize": {
+            "type": "string",
+            "defaultValue": "Standard_D3",
+            "allowedValues": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3"
+            ]
+        },
+        "VM01Name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "VM01AdminUserName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "VM01AdminPassword": {
+            "type": "securestring"
+        },
+        "PubIPDnsName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "VMAdminUserName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "VMAdminPassword": {
+            "type": "securestring"
+        },
+        "VMNamePrefix": {
+            "type": "string",
+            "minLength": 1
+        },
+        "VMCount": {
+            "type": "int"
+        }
+    },
+    "variables": {
+        "StrPrefix": "Tem",
+
+        "VNETPrefix": "10.0.0.0/16",
+        "VNETSubnet1Name": "Subnet-1",
+        "VNETSubnet1Prefix": "10.0.0.0/24",
+        "VM01ImagePublisher": "MicrosoftWindowsServer",
+        "VM01ImageOffer": "WindowsServer",
+        "VM01OSDiskName": "VM01OSDisk",
+        "VMSubnetRef": "[concat(variables('VM01VnetID'), '/subnets/', variables('VNETSubnet1Name'))]",
+        "VMNicNamePrefix": "[concat(parameters('VMNamePrefix'), 'Nic')]",
+
+
+        "VM01VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'VNET')]",
+        "VM01StorageAccountContainerName": "vhds",
+        "VM01NicName": "[concat(parameters('VM01Name'), 'Nic')]",
+        "InfaCustomeDBVMImage": "https://ispstorenp.blob.core.windows.net/copiedvhds/SQLServer2014C01-os-2015-11-29.vhd",
+        "InfaCustomeVMImage": "https://ispstorenp.blob.core.windows.net/copiedvhds/InfaBaseWin1202-os-2015-11-29.vhd",
+
+        "osType": "windows",
+        "PubIP01Name": "PubIP01",
+        "ExtScriptURI": "https://raw.githubusercontent.com/vijayanand17/infascripts/master/",
+        "ExtCDBScriptFile": "createsqldbuser.ps1",
+        "ExtWIScriptFile": "wininfainstaller.ps1",
+        "VM02Name": "[concat(parameters('VMNamePrefix'), '1')]",
+        "VM02ImagePublisher": "MicrosoftWindowsServer",
+        "VM02ImageOffer": "WindowsServer",
+        "VM02OSDiskName": "VM02OSDisk",
+        "VM02VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'VNET')]",
+        "VM02StorageAccountContainerName": "vhds",
+        "NetworkSecurityGroupName": "InfaNetworkSecurityGroup",
+
+        "InfaNode1Port": 6005,
+        "InfaDBType": "MSSQLSERVER",
+        "InfaDBName": "model",
+        "InfaDBPort": "1433",
+        "InfaNode1MasterFlag": 0,
+        "VM03ImagePublisher": "MicrosoftWindowsServer",
+        "VM03ImageOffer": "WindowsServer",
+        "VM03OSDiskName": "VM03OSDisk",
+        "VM03VmSize": "Standard_D1",
+        "VM03VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'VNET')]",
+        "VM03StorageAccountContainerName": "vhds",
+
+        "ImagePublisher": "MicrosoftSQLServer",
+        "ImageOffer": "SQL2014-WS2012R2",
+        "WindowsOSVersion": "Enterprise",
+
+        "InfaCustomVMDisk1": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM01.osdisk.HackFest.vhd')]",
+        "InfaCustomVMDisk2": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM02.osdisk.HackFest.vhd')]",
+        "InfaCustomVMDisk3": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM03.osdisk.HackFest.vhd')]",
+
+
+        "gatewayNodeCount": "[sub(parameters('VMCount'), 1)]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('StoreName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "Store"
+            },
+            "properties": {
+                "accountType": "[parameters('StoreType')]"
+            }
+        },
+        {
+            "name": "VNET",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "VNET"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('NetworkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('VNETPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('VNETSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('VNETSubnet1Prefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NetworkSecurityGroupName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('VM01NicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'VNET')]"
+            ],
+            "tags": {
+                "displayName": "VM01Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('VMSubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('VM01Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VM01NicName'))]"
+            ],
+            "tags": {
+                "displayName": "VM01"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('VM01Name')]",
+                    "adminUsername": "[parameters('VM01AdminUsername')]",
+                    "adminPassword": "[parameters('VM01AdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "VM01OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeDBVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[variables('InfaCustomVMDisk1')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VM01NicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "ScriptExtDB",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('VM01Name'))]"
+                    ],
+                    "tags": {
+                        "displayName": "ScriptExtDB"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('ExtScriptURI'),  variables('ExtCDBScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('ExtCDBScriptFile'), ' -dbUserName ', parameters('DBUser'), ' -dbPassword ', parameters('DBPassword'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[variables('PubIP01Name')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "PubIP01"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('PubIPDnsName')]"
+                }
+            }
+        },
+        {
+            "name": "[concat(variables('VMNicNamePrefix'), '1')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'VNET')]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('PubIP01Name'))]"
+            ],
+            "tags": {
+                "displayName": "VM02Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('VMSubnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('PubIP01Name'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('VM02Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMNicNamePrefix'), '1')]",
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('VM01Name'))]"
+            ],
+            "tags": {
+                "displayName": "VM02"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('VM02Name')]",
+                    "adminUsername": "[parameters('VMAdminUsername')]",
+                    "adminPassword": "[parameters('VMAdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "VM02OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[variables('InfaCustomVMDisk2')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMNicNamePrefix'), '1'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "ScriptExtDVM",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('VM02Name'))]"
+                    ],
+                    "tags": {
+                        "displayName": "ScriptExtDVM"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('ExtScriptURI'),  variables('ExtWIScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('ExtWIScriptFile'), ' -domainHost ', variables('VM02Name'), ' -domainName ', parameters('InfaDomainName'), ' -domainUser ', parameters('InfaDomainUser'), ' -domainPassword ', parameters('InfaDomainPassword'), ' -nodeName ', parameters('InfaNodeNamePrefix'), '1', ' -nodePort ', variables('InfaNode1Port'), ' -dbType ', variables('InfaDBType'), ' -dbName ', variables('InfaDBName'), ' -dbUser ', parameters('DBUser'), ' -dbPassword ', parameters('DBPassword'), ' -dbHost ', parameters('VM01Name'), ' -dbPort ', variables('InfaDBPort'), ' -sitekeyKeyword ', parameters('InfaKeyWord'), ' -joinDomain ', variables('InfaNode1MasterFlag'), ' -osUserName ', parameters('VMAdminUserName'))]"
+                        }
+                    }
+                }
+            ]
+        },
+
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('NetworkSecurityGroupName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "NetworkSecurityGroup"
+            },
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "InformaticaTCPRule",
+                        "properties": {
+                            "description": "Enable first 10000 port. This just for testing.",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[concat(variables('VMNicNamePrefix'), add(copyIndex(), 2))]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'VNET')]"
+            ],
+            "copy": {
+                "name": "gatewayNodeCount",
+                "count": "[variables('gatewayNodeCount')]"
+            },
+            "tags": {
+                "displayName": "VM03Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('VMSubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[concat(parameters('VMNamePrefix'), add(copyIndex(), 2))]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMNicNamePrefix'), add(copyIndex(), 2))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VM02Name'))]"
+            ],
+            "copy": {
+                "name": "gatewayNodeCount",
+                "count": "[variables('gatewayNodeCount')]"
+            },
+            "tags": {
+                "displayName": "VM03"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[concat(parameters('VMNamePrefix'), add(copyIndex(), 2))]",
+                    "adminUsername": "[parameters('VMAdminUsername')]",
+                    "adminPassword": "[parameters('VMAdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "VM03OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM', add(copyIndex(), 2), '.osdisk.vhd')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMNicNamePrefix'), add(copyIndex(), 2)))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "ScriptExtGVM",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('VMNamePrefix'), add(copyIndex(), 2))]"
+                    ],
+                    "tags": {
+                        "displayName": "ScriptExtGVM"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('ExtScriptURI'),  variables('ExtWIScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('ExtWIScriptFile'), ' -domainHost ', variables('VM02Name'), ' -domainName ', parameters('InfaDomainName'), ' -domainUser ', parameters('InfaDomainUser'), ' -domainPassword ', parameters('InfaDomainPassword'), ' -nodeName ', parameters('InfaNodeNamePrefix'), add(copyIndex(), 2), ' -nodePort ', variables('InfaNode1Port'), ' -dbType ', variables('InfaDBType'), ' -dbName ', variables('InfaDBName'), ' -dbUser ', parameters('DBUser'), ' -dbPassword ', parameters('DBPassword'), ' -dbHost ', parameters('VM01Name'), ' -dbPort ', variables('InfaDBPort'), ' -sitekeyKeyword ', parameters('InfaKeyWord'), ' -joinDomain 1 -osUserName ', parameters('VMAdminUserName'))]"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+    }
+}

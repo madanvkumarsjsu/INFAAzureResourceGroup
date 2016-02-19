@@ -2,5 +2,56 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "InfaDomainName": {
+            "value": "infadomain"
+        },
+        "InfaDomainUser": {
+            "value": "Administrator"
+        },
+        "InfaNodeNamePrefix": {
+            "value": "infa"
+        },
+        "DBUser": {
+            "value": "user1"
+        },
+        "InfaDomainPassword": {
+            "value": "Administraotr"
+        },
+        "InfaKeyWord": {
+            "value": "Infa@2015"
+        },
+        "DBPassword": {
+            "value": "user1"
+        },
+        "StoreName": {
+            "value": "infastore1"
+        },
+        "VM01Name": {
+            "value": "infaVM01"
+        },
+        "VM01AdminUserName": {
+            "value": "Administrator"
+        },
+        "VM01AdminPassword": {
+            "value": "Administrator"
+        },
+        "PubIPDnsName": {
+            "value": "dns01"
+        },
+        "VMAdminUserName": {
+            "value": "Administrator"
+        },
+        "VMAdminPassword": {
+            "value": "Administrator"
+        },
+        "VMNamePrefix": {
+            "value": "infa"
+        },
+        "VMCount": {
+            "value": 1
+        }
     }
 }

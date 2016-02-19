@@ -1,0 +1,58 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "value": "vnet03"
+        },
+        "subnetName": {
+            "value": "vsubnet03"
+        },
+        "VM01Name": {
+            "value": "vm03"
+        },
+        "DBUser": {
+            "value": "infadb"
+        },
+        "DBPassword": {
+            "value": "infadb"
+        },
+        "NodeVMSize": {
+            "value": "Standard_A1"
+        },
+        "VMAdminUserName": {
+            "value": "devuser"
+        },
+        "VMAdminPassword": {
+            "value": "tempBG@2008"
+        },
+        "VMNamePrefix": {
+            "value": "infa"
+        },
+        "VMCount": {
+            "value": 1
+        },
+        "Index": {
+            "value": 2
+        },
+        "InfaDomainName": {
+            "value": "domain03"
+        },
+        "InfaDomainUser": {
+            "value": "admin"
+        },
+        "InfaDomainPassword": {
+            "value": "admin"
+        },
+        "InfaNodeNamePrefix": {
+            "value": "infa"
+        },
+        "InfaKeyWord": {
+            "value": "Infa@2015"
+        },
+        "VMOSType": {
+            "value": "linux"
+        }
+
+    }
+}

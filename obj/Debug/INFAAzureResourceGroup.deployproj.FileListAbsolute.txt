@@ -1,0 +1,2 @@
+C:\Users\mvijayak\Documents\GitHub\INFAAzureResourceGroup\INFAAzureResourceGroup\bin\Debug\Scripts\Deploy-AzureResourceGroup.ps1
+C:\Users\mvijayak\Documents\GitHub\INFAAzureResourceGroup\INFAAzureResourceGroup\bin\Debug\Templates\DeploymentTemplate.json
