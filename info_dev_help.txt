@@ -1,0 +1,11 @@
+HDI for development
+Head node 
+10.7.0.12
+
+Datanode
+10.7.0.8
+10.7.0.9
+10.7.0.10
+10.7.0.5
+
+curl -u admin:Infabde@2016 -X GET https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster/hosts

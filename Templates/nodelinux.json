@@ -80,9 +80,35 @@
             "type": "securestring",
             "minLength": 4
         },
-        "ClusterHostName": {
-            "type": "string",
-            "minLength": 1
+        "HDIClusterName": {
+            "type": "string"
+        },
+        "HDIClusterLoginUsername": {
+            "type": "string"
+        },
+        "HDIClusterLoginPassword": {
+            "type": "string"
+        },
+        "HDIClusterSSHHostname": {
+            "type": "string"
+        },
+        "HDIClusterSSHUsername": {
+            "type": "string"
+        },
+        "HDIClusterSSHPassword": {
+            "type": "string"
+        },
+        "Clusterjobhistory": {
+            "type": "string"
+        },
+        "Clusterjobhistorywebapp": {
+            "type": "string"
+        },
+        "ClusterRMSaddress": {
+            "type": "string"
+        },
+        "ClusterRMWaddress": { 
+            "type": "string"
         }
     },
     "variables": {
@@ -208,7 +234,7 @@
                             "fileUris": [
                                 "[concat(variables('ExtScriptURI'),  variables('ExtWIScriptFile'))]"
                             ],
-                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', parameters('ClusterHostName'), ' ')]"
+                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', parameters('HDIClusterName'), ' ', parameters('HDIClusterLoginUsername'), ' ', parameters('HDIClusterLoginPassword'), ' ', parameters('HDIClusterSSHHostname'), ' ', parameters('HDIClusterSSHUsername'), ' ', parameters('HDIClusterSSHPassword'), ' ', parameters('Clusterjobhistory'), ' ', parameters('Clusterjobhistorywebapp'), ' ', parameters('ClusterRMSaddress'), ' ', parameters('ClusterRMWaddress'), ' ')]"
                         }
                     }
                 }

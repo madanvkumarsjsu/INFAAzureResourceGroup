@@ -1,18 +1,39 @@
 #!/bin/bash
 #Script arguments
-ClusterHostName=$1
+HDIClusterName=$1
+HDIClusterLoginUsername=$2
+HDIClusterLoginPassword=$3
+HDIClusterSSHHostname=$4
+HDIClusterSSHUsername=$5
+HDIClusterSSHPassword=$6
+Clusterjobhistory=$7
+Clusterjobhistorywebapp$8
+ClusterRMSaddress=$9
+ClusterRMWaddress$10
 #Check
-echo $ClusterHostName > /home/devuser/input.log
-whoami > /home/devuser/user.log
-pwd > /home/devuser/output.log
+mkdir /home/devuser/logs
+echo $HDIClusterName $HDIClusterLoginUsername $HDIClusterLoginPassword $HDIClusterSSHHostname $HDIClusterSSHUsername $HDIClusterSSHPassword $Clusterjobhistory $Clusterjobhistorywebapp $ClusterRMSaddress $ClusterRMWaddress > /home/devuser/logs/input.log
+whoami > /home/devuser/logs/user.log
+pwd > /home/devuser/logs/output.log
 
-#SSH into Head node
-mkdir /home/devuser/infaRPMInstall
-sudo apt-get install sshpass > /home/devuser/install.log
-sshpass -p 'Infabde@2016' ssh -o StrictHostKeyChecking=no blazeuser@10.7.0.12 > /home/devuser/ssh.log
+#RPM download
+mkdir /home/devuser/logs/infaRPMInstall
+cd /home/devuser/logs/infaRPMInstall
+wget http://ispstorenp.blob.core.windows.net/bderpm/informatica_10.0.0-1.deb > /home/devuser/logs/download.log
 
-#RPM download and install
-mkdir /home/blazeuser/infaRPMInstall
-cd /home/blazeuser/infaRPMInstall
-wget http://ispstorenp.blob.core.windows.net/bderpm/informatica_10.0.0-1.deb
+#Ambari API calls to extract Head node and Data nodes
+echo "Getting list of hosts from ambari"
+hostsJson=$(curl -u $HDIClusterLoginUsername:$HDIClusterLoginPassword -X GET https://$HDIClusterName.azurehdinsight.net/api/v1/clusters/$HDIClusterName/hosts)
+echo $hostsJson > /home/devuser/logs/hosts.log
+
+echo "Parsing list of hosts"
+hosts=$(echo $hostsJson | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w 'host_name')
+echo $host > /home/devuser/logs/parsedhost.log
+
+#SCP and Install RPM packages to Data node 
+#sshpass -p 'Infabde@2016' scp -r $clusterSshUser@$clusterSshHostName:"$path/*" "$tmpFilePath$path"
+#ssh -o StrictHostKeyChecking=no blazeuser@$ClusterHostName > /home/devuser/logs/ssh.log
+#10.7.0.12
+
+
 sudo dpkg -i informatica_10.0.0-1.deb
