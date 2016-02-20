@@ -50,11 +50,38 @@
         "InfaKeyWord": {
             "value": "Infa@2015"
         },
-        "VMOSType": {
+        "VMOSvalue": {
             "value": "linux"
         },
-         "ClusterHostName": {
-            "value": "10.7.0.12"
+        "HDIClusterName": {
+            "value": "developementcluster"
+        },
+        "HDIClusterLoginUsername": {
+            "value": "admin"
+        },
+        "HDIClusterLoginPassword": {
+            "value": "Infabde@2016"
+        },
+        "HDIClusterSSHHostname": {
+            "value": "developementcluster-ssh.azurehdinsight.net"
+        },
+        "HDIClusterSSHUsername": {
+            "value": "blazeuser"
+        },
+        "HDIClusterSSHPassword": {
+            "value": "Infabde@2016"
+        },
+        "Clusterjobhistory": {
+            "value": "string"
+        },
+        "Clusterjobhistorywebapp": {
+            "value": "string"
+        },
+        "ClusterRMSaddress": {
+            "value": "string"
+        },
+        "ClusterRMWaddress": { 
+            "value": "string"
         }
     }
 }
