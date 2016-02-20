@@ -52,7 +52,9 @@
         },
         "VMOSType": {
             "value": "linux"
+        },
+         "ClusterHostName": {
+            "value": "10.7.0.12"
         }
-
     }
 }

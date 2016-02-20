@@ -1,12 +1,15 @@
 #!/bin/bash
 #Script arguments
+ClusterHostName=$1
+#Check
+echo $ClusterHostName > /home/devuser/input.log
 whoami > /home/devuser/user.log
 pwd > /home/devuser/output.log
 
 #SSH into Head node
 mkdir /home/devuser/infaRPMInstall
-sudo apt-get install sshpass
-sshpass -p 'Infabde@2016' ssh -o StrictHostKeyChecking=no blazeuser@10.7.0.12
+sudo apt-get install sshpass > /home/devuser/install.log
+sshpass -p 'Infabde@2016' ssh -o StrictHostKeyChecking=no blazeuser@10.7.0.12 > /home/devuser/ssh.log
 
 #RPM download and install
 mkdir /home/blazeuser/infaRPMInstall

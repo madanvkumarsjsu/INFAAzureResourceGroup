@@ -79,6 +79,10 @@
         "InfaKeyWord": {
             "type": "securestring",
             "minLength": 4
+        },
+        "ClusterHostName": {
+            "type": "string",
+            "minLength": 1
         }
     },
     "variables": {
@@ -204,7 +208,7 @@
                             "fileUris": [
                                 "[concat(variables('ExtScriptURI'),  variables('ExtWIScriptFile'))]"
                             ],
-                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', concat(parameters('VMNamePrefix'), '1'), ' ', parameters('InfaDomainName'), ' ', parameters('InfaDomainUser'), ' ', parameters('InfaDomainPassword'), ' ', parameters('InfaNodeNamePrefix'), add(parameters('Index'), 1), ' ', variables('InfaNode1Port'), ' ', variables('InfaDBType'), ' ', variables('InfaDBName'), ' ', parameters('DBUser'), ' ', parameters('DBPassword'), ' ', parameters('VM01Name'), ' ', variables('InfaDBPort'), ' ', parameters('InfaKeyWord'), ' ', parameters('Index'), ' ', parameters('VMAdminUserName'))]"
+                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', parameters('ClusterHostName'), ' ')]"
                         }
                     }
                 }
