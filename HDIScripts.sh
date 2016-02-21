@@ -44,8 +44,16 @@ echo "$headnode0ip headnode0">>/etc/hosts
 echo "Extracting workernode"
 workernodes=$(echo $hosts | grep -Eo '\bwn-([^[:space:]]*)\b') > /home/devuser/logs/workernode.log
 echo "Extracting workernodes IP addresses"
-#headnode0ip=$(dig +short $headnode0)
-#echo "headnode0 IP: $headnode0ip"
+echo "workernodes : $workernodes"
+wnArr=$(echo $workernodes | tr "\n" "\n")
+for workernode in $wnArr
+do
+    echo "[$workernode]"
+	workernodeip=$(dig +short $workernode)
+	echo "workernodeip $workernodeip" >> /home/devuser/logs/workernodes.log
+	#SCP packages 
+	
+done
 
 
 
