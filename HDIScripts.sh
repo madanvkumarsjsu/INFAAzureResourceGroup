@@ -31,10 +31,11 @@ hosts=$(echo $hostsJson | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text
 echo $hosts > /home/devuser/logs/parsedhost.log
 
 echo "Extracting headnode0"
-headnode0=$(echo $hosts | grep -Eo '\bhn0-([^[:space:]]*)\b') > /home/devuser/logs/headnode.log
+headnode0=$(echo $hosts | grep -Eo '\bhn0-([^[:space:]]*)\b') 
+echo $headnode0 > /home/devuser/logs/headnode.log
 echo "Extracting headnode0 IP addresses"
-headnode0ip=$(dig +short $headnode0) > /home/devuser/logs/headnodeip.log
-echo "headnode0 IP: $headnode0ip"
+headnode0ip=$(dig +short $headnode0) 
+echo "headnode0 IP: $headnode0ip" > /home/devuser/logs/headnodeip.log
 
 #Add a new line to the end of hosts file
 echo "">>/etc/hosts
@@ -42,27 +43,19 @@ echo "Adding headnode IP addresses"
 echo "$headnode0ip headnode0">>/etc/hosts
 
 echo "Extracting workernode"
-workernodes=$(echo $hosts | grep -Eo '\bwn-([^[:space:]]*)\b') > /home/devuser/logs/workernode.log
+workernodes=$(echo $hosts | grep -Eo '\bwn-([^[:space:]]*)\b') 
 echo "Extracting workernodes IP addresses"
-echo "workernodes : $workernodes"
+echo "workernodes : $workernodes" > /home/devuser/logs/workernode.log
 wnArr=$(echo $workernodes | tr "\n" "\n")
+tmpRemoteFolderName = rpmtemp
+filename = informatica_10.0.0-1.deb
 for workernode in $wnArr
 do
-    echo "[$workernode]"
+    echo "[$workernode]" 
 	workernodeip=$(dig +short $workernode)
-	echo "workernodeip $workernodeip" >> /home/devuser/logs/workernodes.log
-	#SCP packages 
-	
+	echo "workernodeip $workernodeip" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword ssh $HDIClusterSSHUsername@$workernodeip:"mkdir ~/$tmpRemoteFolderName" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword scp $HDIClusterSSHUsername@$workernodeip:$filename "~/$tmpRemoteFolderName/" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword ssh $HDIClusterSSHUsername@$workernodeip:"sudo dpkg -i ~/$tmpRemoteFolderName/$filename" >> /home/devuser/logs/batchoutput.log
+	#SCP packages	
 done
-
-
-
-#SCP and Install RPM packages to Data node 
-#sshpass -p 'Infabde@2016' scp -r $clusterSshUser@$clusterSshHostName:"$path/*" "$tmpFilePath$path"
-#ssh -o StrictHostKeyChecking=no blazeuser@$ClusterHostName > /home/devuser/logs/ssh.log
-#10.7.0.12
-
-
-
-
-sudo dpkg -i informatica_10.0.0-1.deb
