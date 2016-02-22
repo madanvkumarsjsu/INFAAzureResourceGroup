@@ -47,8 +47,8 @@ workernodes=$(echo $hosts | grep -Eo '\bwn([^[:space:]]*)\b')
 echo "Extracting workernodes IP addresses"
 echo "workernodes : $workernodes" > /home/devuser/logs/workernode.log
 wnArr=$(echo $workernodes | tr "\n" "\n")
-tmpRemoteFolderName = rpmtemp
-filename = informatica_10.0.0-1.deb
+#tmpRemoteFolderName = rpmtemp
+#filename = informatica_10.0.0-1.deb
 sudo apt-get install sshpass
 for workernode in $wnArr
 do
