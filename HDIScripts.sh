@@ -43,7 +43,7 @@ echo "Adding headnode IP addresses"
 echo "$headnode0ip headnode0">>/etc/hosts
 
 echo "Extracting workernode"
-workernodes=$(echo $hosts | grep -Eo '\bwn-([^[:space:]]*)\b') 
+workernodes=$(echo $hosts | grep -Eo '\bwn([^[:space:]]*)\b') 
 echo "Extracting workernodes IP addresses"
 echo "workernodes : $workernodes" > /home/devuser/logs/workernode.log
 wnArr=$(echo $workernodes | tr "\n" "\n")
@@ -54,8 +54,8 @@ do
     echo "[$workernode]" 
 	workernodeip=$(dig +short $workernode)
 	echo "workernodeip $workernodeip" >> /home/devuser/logs/batchoutput.log
-	sshpass -p $HDIClusterSSHPassword ssh $HDIClusterSSHUsername@$workernodeip:"mkdir ~/$tmpRemoteFolderName" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "mkdir ~/$tmpRemoteFolderName" >> /home/devuser/logs/batchoutput.log
 	sshpass -p $HDIClusterSSHPassword scp $HDIClusterSSHUsername@$workernodeip:$filename "~/$tmpRemoteFolderName/" >> /home/devuser/logs/batchoutput.log
-	sshpass -p $HDIClusterSSHPassword ssh $HDIClusterSSHUsername@$workernodeip:"sudo dpkg -i ~/$tmpRemoteFolderName/$filename" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo dpkg -i ~/$tmpRemoteFolderName/$filename" >> /home/devuser/logs/batchoutput.log
 	#SCP packages	
 done
