@@ -9,3 +9,5 @@ Datanode
 10.7.0.5
 
 curl -u admin:Infabde@2016 -X GET https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster/hosts
+
+sshpass -p Infabde@2016 ssh -o StrictHostKeyChecking=no blazeuser@10.7.0.8 "sudo mkdir ~/tmpRemoteFolderName"
