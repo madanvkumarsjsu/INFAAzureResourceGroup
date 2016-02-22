@@ -55,7 +55,7 @@ do
     echo "[$workernode]" 
 	workernodeip=$(dig +short $workernode)
 	echo "workernodeip $workernodeip" >> /home/devuser/logs/batchoutput.log
-	sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "mkdir ~/$tmpRemoteFolderName" >> /home/devuser/logs/batchoutput.log
+	sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo mkdir ~/$tmpRemoteFolderName" >> /home/devuser/logs/batchoutput.log
 	sshpass -p $HDIClusterSSHPassword scp $HDIClusterSSHUsername@$workernodeip:$filename "~/$tmpRemoteFolderName/" >> /home/devuser/logs/batchoutput.log
 	sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo dpkg -i ~/$tmpRemoteFolderName/$filename" >> /home/devuser/logs/batchoutput.log
 	#SCP packages	
