@@ -234,7 +234,7 @@
                             "fileUris": [
                                 "[concat(variables('ExtScriptURI'),  variables('ExtWIScriptFile'))]"
                             ],
-                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', parameters('HDIClusterName'), ' ', parameters('HDIClusterLoginUsername'), ' ', parameters('HDIClusterLoginPassword'), ' ', parameters('HDIClusterSSHHostname'), ' ', parameters('HDIClusterSSHUsername'), ' ', parameters('HDIClusterSSHPassword'), ' ', parameters('Clusterjobhistory'), ' ', parameters('Clusterjobhistorywebapp'), ' ', parameters('ClusterRMSaddress'), ' ', parameters('ClusterRMWaddress'), ' ')]"
+                            "commandToExecute": "[concat('sh ', variables('ExtWIScriptFile'), ' ', parameters('VMAdminUserName'), ' ', parameters('HDIClusterName'), ' ', parameters('HDIClusterLoginUsername'), ' ', parameters('HDIClusterLoginPassword'), ' ', parameters('HDIClusterSSHHostname'), ' ', parameters('HDIClusterSSHUsername'), ' ', parameters('HDIClusterSSHPassword'), ' ')]"
                         }
                     }
                 }
