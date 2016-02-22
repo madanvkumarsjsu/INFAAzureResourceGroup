@@ -57,6 +57,8 @@ do
 	echo "workernodeip $workernodeip" >> /home/devuser/logs/batchoutput.log
 	#create temp folder
 	sudo sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo mkdir ~/rpmtemp" >> /home/devuser/logs/batchoutput.log
+	#Give permission to rpm folder
+	sudo sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo chmod 777 ~/rpmtemp" >> /home/devuser/logs/batchoutput.log
 	#SCP infa binaries
 	sudo sshpass -p $HDIClusterSSHPassword scp informatica_10.0.0-1.deb $HDIClusterSSHUsername@$workernodeip:"~/rpmtemp/" >> /home/devuser/logs/batchoutput.log
 	#extract the binaries
