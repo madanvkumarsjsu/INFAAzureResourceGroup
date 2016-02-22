@@ -55,8 +55,10 @@ do
     echo "[$workernode]" 
 	workernodeip=$(dig +short $workernode)
 	echo "workernodeip $workernodeip" >> /home/devuser/logs/batchoutput.log
+	#create temp folder
 	sudo sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo mkdir ~/rpmtemp" >> /home/devuser/logs/batchoutput.log
+	#SCP infa binaries
 	sudo sshpass -p $HDIClusterSSHPassword scp informatica_10.0.0-1.deb $HDIClusterSSHUsername@$workernodeip:"~/rpmtemp/" >> /home/devuser/logs/batchoutput.log
+	#extract the binaries
 	sudo sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo dpkg -i ~/rpmtemp/informatica_10.0.0-1.deb" >> /home/devuser/logs/batchoutput.log
-	#SCP packages	
 done
