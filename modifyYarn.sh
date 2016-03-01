@@ -1,0 +1,5 @@
+#!/bin/bash
+sed -i '/<configuration>/ a <property>\n<name>mapreduce.jobhistory.address</name>\n<value>HOSTNAME:10020</value>\n<description>MapReduce JobHistory Server IPC host:port</description>\n</property>' yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>mapreduce.jobhistory.webapp.address</name>\n<value>HOSTNAME:19888</value>\n<description>MapReduce JobHistory Server Web UI host:port</description>\n</property>' yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>yarn.resourcemanager.scheduler.address</name>\n<value>HOSTNAME:8030</value>\n<description>CLASSPATH for YARN applications. A comma-separated list of CLASSPATH entries</description>\n</property>' yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>yarn.resourcemanager.webapp.address</name>\n<value>HOSTNAME:8088</value>\n<description>CLASSPATH for YARN applications. A comma-separated list of CLASSPATH entries</description>\n</property>' yarn-site.xml
