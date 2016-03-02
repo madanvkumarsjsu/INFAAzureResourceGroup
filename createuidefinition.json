@@ -22,7 +22,7 @@
                             "subnets": "Subnets"
                         },
                         "toolTip": {
-                            "virtualNetwork": "Virtual network all resource required to be part of",
+                            "virtualNetwork": "Select same Virtual Network used by HDInsight cluster",
                             "subnets": ""
                         },
                         "defaultValue": {
@@ -317,20 +317,20 @@
                 ]
             },
             {
-                "label": "Informatica BDE settings",
+                "label": "Informatica Big Data Management settings",
                 "name": "infaBDEConfiguration",
                 "subLabel": {
-                    "preValidation": "Configure the Informatica HDI Cluster settings",
+                    "preValidation": "Configure the Informatica HDInsight Cluster settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Informatica BDE Settings",
+                "bladeTitle": "Informatica Big Data Management settings",
                 "elements": [
                     {
                         "name": "HDIClusterName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "HDI Cluster HOSTNAME",
+                        "label": "HDInsight Cluster HOSTNAME",
                         "defaultValue": "",
-                        "toolTip": "Check the HDI cluster properties under settings",
+                        "toolTip": "Check the HDInsight cluster properties under settings",
                         "constraints": {
                             "required": true
                         }
@@ -338,9 +338,9 @@
                     {
                         "name": "HDIClusterLoginUsername",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "HDI Cluster Login Username",
+                        "label": "HDInsight Cluster Login Username",
                         "defaultValue": "",
-                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
+                        "toolTip": "Check the HDInsight cluster login under settings. This is usually the credential to login into Ambari",
                         "constraints": {
                             "required": true
                         }
@@ -348,9 +348,9 @@
                     {
                         "name": "HDIClusterLoginPassword",
                         "type": "Microsoft.Common.PasswordBox",
-                        "label": "HDI Cluster Login Password",
+                        "label": "HDInsight Cluster Login Password",
                         "defaultValue": "",
-                        "toolTip": "Check the HDI cluster login under settings. This is usually the credential to login into Ambari",
+                        "toolTip": "Check the HDInsight cluster login under settings. This is usually the credential to login into Ambari",
                         "constraints": {
                             "required": true
                         }
@@ -358,16 +358,16 @@
                     {
                         "name": "HDIClusterSSHHostname",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "HDI Cluster SSH hostname",
+                        "label": "HDInsight Cluster SSH hostname",
                         "defaultValue": "hostname-ssh.azurehdinsight.net",
-                        "toolTip": "HDI cluster's headnode SSH hostname"
+                        "toolTip": "HDInsight cluster's headnode SSH hostname"
                     },
                     {
                         "name": "HDIClusterSSHUsername",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "HDI Cluster SSH Username",
+                        "label": "HDInsight Cluster SSH Username",
                         "defaultValue": "",
-                        "toolTip": "HDI cluster's headnode SSH username",
+                        "toolTip": "HDInsight cluster's headnode SSH username",
                         "constraints": {
                             "required": true
                         }
@@ -375,9 +375,9 @@
                     {
                         "name": "HDIClusterSSHPassword",
                         "type": "Microsoft.Common.PasswordBox",
-                        "label": "HDI Cluster SSH Password",
+                        "label": "HDInsight Cluster SSH Password",
                         "defaultValue": "",
-                        "toolTip": "HDI cluster's headnode SSH password",
+                        "toolTip": "HDInsight cluster's headnode SSH password",
                         "constraints": {
                             "required": true
                         }
@@ -446,7 +446,15 @@
 			"infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
 			"infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
 			"infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
-			"infaDomainEncryptionKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]"
+			"infaDomainEncryptionKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterName]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').Clusterjobhistory]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').Clusterjobhistorywebapp]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').ClusterRMSaddress]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').ClusterRMWaddress]"
         }
     }
 }
