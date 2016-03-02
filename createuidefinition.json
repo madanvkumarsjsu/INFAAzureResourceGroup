@@ -328,7 +328,7 @@
                     {
                         "name": "HDIClusterName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "HDInsight Cluster HOSTNAME",
+                        "label": "HDInsight Cluster hostname",
                         "defaultValue": "",
                         "toolTip": "Check the HDInsight cluster properties under settings",
                         "constraints": {
@@ -449,8 +449,10 @@
 			"infaDomainEncryptionKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterName]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
+			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
-			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+            "infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+            "infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').Clusterjobhistory]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').Clusterjobhistorywebapp]",
 			"infaDomainEncryptionKeyword": "[steps('infaBDEConfiguration').ClusterRMSaddress]",
