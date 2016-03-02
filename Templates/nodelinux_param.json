@@ -72,16 +72,16 @@
             "value": "Infabde@2016"
         },
         "Clusterjobhistory": {
-            "value": "string"
+            "value": "hn0-develo.1qm0c41xfx4ujjyfjesdd41rsb.ix.internal.cloudapp.net:10020"
         },
         "Clusterjobhistorywebapp": {
-            "value": "string"
+            "value": "hn0-develo.1qm0c41xfx4ujjyfjesdd41rsb.ix.internal.cloudapp.net:19888"
         },
         "ClusterRMSaddress": {
-            "value": "string"
+            "value": "hn0-develo.1qm0c41xfx4ujjyfjesdd41rsb.ix.internal.cloudapp.net:8030"
         },
         "ClusterRMWaddress": { 
-            "value": "string"
+            "value": "hn0-develo.1qm0c41xfx4ujjyfjesdd41rsb.ix.internal.cloudapp.net:8088"
         },
         "VMOSType": {
             "value": "linux"

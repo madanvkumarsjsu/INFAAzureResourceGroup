@@ -8,9 +8,9 @@ HDIClusterSSHHostname=$5
 HDIClusterSSHUsername=$6
 HDIClusterSSHPassword=$7
 Clusterjobhistory=$8
-Clusterjobhistorywebapp$9
+Clusterjobhistorywebapp=$9
 ClusterRMSaddress=$10
-ClusterRMWaddress$11
+ClusterRMWaddress=$11
 #Check
 mkdir /home/$VMAdminUserName/logs
 echo $VMAdminUserName $HDIClusterName $HDIClusterLoginUsername $HDIClusterLoginPassword $HDIClusterSSHHostname $HDIClusterSSHUsername $HDIClusterSSHPassword 
@@ -68,5 +68,13 @@ do
 	sudo sshpass -p $HDIClusterSSHPassword ssh -o StrictHostKeyChecking=no $HDIClusterSSHUsername@$workernodeip "sudo rm -rf ~/rpmtemp"
 done
 
+#testpurpose of updating yarn site - Start
+echo $Clusterjobhistory $Clusterjobhistorywebapp $ClusterRMSaddress $ClusterRMWaddress > /home/devuser/clusterdata.log
+sudo dpkg -i informatica_10.0.0-1.deb
+sed -i '/<configuration>/ a <property>\n<name>mapreduce.jobhistory.address</name>\n<value>'$Clusterjobhistory'</value>\n<description>MapReduce JobHistory Server IPC host:port</description>\n</property>' /opt/Informatica/services/shared/hadoop/hortonworks_2.2/conf/yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>mapreduce.jobhistory.webapp.address</name>\n<value>'$Clusterjobhistorywebapp'</value>\n<description>MapReduce JobHistory Server Web UI host:port</description>\n</property>' /opt/Informatica/services/shared/hadoop/hortonworks_2.2/conf/yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>yarn.resourcemanager.scheduler.address</name>\n<value>'$ClusterRMSaddress'</value>\n<description>CLASSPATH for YARN applications. A comma-separated list of CLASSPATH entries</description>\n</property>' /opt/Informatica/services/shared/hadoop/hortonworks_2.2/conf/yarn-site.xml
+sed -i '/<configuration>/ a <property>\n<name>yarn.resourcemanager.webapp.address</name>\n<value>'$ClusterRMWaddress'</value>\n<description>CLASSPATH for YARN applications. A comma-separated list of CLASSPATH entries</description>\n</property>' /opt/Informatica/services/shared/hadoop/hortonworks_2.2/conf/yarn-site.xml
+#testpurpose of updating yarn site - End
 cd /home/$VMAdminUserName
 rm -rf /home/$VMAdminUserName/infaRPMInstall
