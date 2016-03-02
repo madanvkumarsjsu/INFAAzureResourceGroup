@@ -9,5 +9,17 @@ Datanode
 10.7.0.5
 
 curl -u admin:Infabde@2016 -X GET https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster/hosts
+api/v1/clusters/developementcluster?fields=Clusters/desired_configs
+https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster?fields=Clusters/desired_configs
 
+curl -u admin:Infabde@2016 -X GET https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster/configurations?type=yarn-site&tag=INITIAL
 sshpass -p Infabde@2016 ssh -o StrictHostKeyChecking=no blazeuser@10.7.0.8 "sudo mkdir ~/tmpRemoteFolderName"
+
+
+Get ip from hosts
+getent hosts hn0-develo.1qm0c41xfx4ujjyfjesdd41rsb.ix.internal.cloudapp.net | awk '{ print $1 }'
+
+
+Get configurations
+------------------------
+curl -u admin:Infabde@2016 -X GET "https://developementcluster.azurehdinsight.net/api/v1/clusters/developementcluster/configurations?type=yarn-site&tag=INITIAL" | grep -w yarn.resourcemanager.scheduler.address > outputlog

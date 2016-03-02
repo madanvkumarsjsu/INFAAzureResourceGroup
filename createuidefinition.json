@@ -67,25 +67,6 @@
                         }
                     },
                     {
-                        "name": "nodeVMOS",
-                        "type": "Microsoft.Common.DropDown",
-                        "label": "Machine OS",
-                        "defaultValue": "1",
-                        "toolTip": "Operating system for the machine",
-                        "constraints": {
-                            "allowedValues": [
-                                {
-                                    "label": "Ubuntu 14",
-                                    "value": "linux"
-                                },
-                                {
-                                    "label": "Windows 2014",
-                                    "value": "Windows"
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "name": "nodeVMPrefix",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Machine prefix",
@@ -452,7 +433,6 @@
 			"storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
 			"storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
 			"nodeCount": "[steps('nodeVMConfiguration').domainNodeCount]",
-			"nodeOS":  "[steps('nodeVMConfiguration').nodeVMOS]",
 			"nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
 			"nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
 			"nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
